@@ -10,13 +10,6 @@ acl
 acpi
 adobe-source-code-pro-fonts
 adwaita-icon-theme
-alacritty
-alsa-card-profiles
-alsa-lib
-alsa-plugins
-alsa-topology-conf
-alsa-ucm-conf
-alsa-utils
 aom
 arandr
 archlinux-keyring
@@ -25,7 +18,6 @@ aria2
 at-spi2-core
 atkmm
 attr
-audacity
 audit
 autoconf
 automake
@@ -882,9 +874,6 @@ v4l2loopback-dkms
 v4l2loopback-utils
 vamp-plugin-sdk
 vid.stab
-vim
-vim-runtime
-vimv-git
 vkd3d
 vkd3d-proton-bin
 vmaf
@@ -969,5 +958,6 @@ zlib
 zoxide
 zpaq
 zsh
-zsh-syntax-highlighting
 zstd
+musl
+atuin

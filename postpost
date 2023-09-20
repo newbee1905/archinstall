@@ -4,13 +4,31 @@ username=$(whoami)
 
 cd /home/$username
 
-packages="https://github.com/DemonKingSwarn/archinstall/raw/master/pkgs.txt"
+packages="./pkgs.txt"
 cd /home/$username
 sudo pacman -S paru --noconfirm
 curl -sLo pkgs.txt $packages
 while read p; do
-    paru -S $p --noconfirm
-done < /home/$username/pkgs.txt
+	paru -S $p --noconfirm
+done </home/$username/pkgs.txt
+
+ln -sfT dash /usr/bin/sh
+
+touch /etc/pacman.d/hooks/dashbinsh.hook
+
+dash_hook="[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = bash
+
+[Action]
+Description = Re-pointing /bin/sh symlink to dash...
+When = PostTransaction
+Exec = /usr/bin/ln -sfT dash /usr/bin/sh
+Depends = dash"
+
+echo "$dash_hook" >/etc/pacman.d/hooks/dashbinsh.hook
 
 proc_type=$(lscpu)
 sudo pacman -S --noconfirm --needed intel-ucode
@@ -26,26 +44,20 @@ sh ./install.sh
 sudo mv ./advcp /usr/local/bin/cpg
 sudo mv ./advmv /usr/local/bin/mvg
 
-cd /home/$username
-mkdir .config
-mkdir -p .local/bin
-mkdir -p .local/share
-mkdir -p .local/state/zsh
-touch .local/state/zsh/history
-mkdir -p .local/lib
-git clone https://github.com/demonkingswarn/dotfiles.git .dots
-cd .dots
-rm ~/.bashrc
-stow --ignore=.git --ignore=PKGBUILD --ignore=README.org .
+# cd /home/$username
+# mkdir .config
+# mkdir -p .local/bin
+# mkdir -p .local/share
+# mkdir -p .local/state/zsh
+# touch .local/state/zsh/history
+# mkdir -p .local/lib
+# git clone https://github.com/demonkingswarn/dotfiles.git .dots
+# cd .dots
+# rm ~/.bashrc
+# stow --ignore=.git --ignore=PKGBUILD --ignore=README.org .
 
-cd /home/$username
-git clone https://github.com/demonkingswarn/scripts.git .scripts
-
-mkdir -p $HOME/pix/
-git clone https://github.com/demonkingswarn/wallpapers.git $HOME/pix/wall
-
-cd /home/$username/.config
-sudo cp env /etc/zsh/zshenv
+# cd /home/$username/.config
+# sudo cp env /etc/zsh/zshenv
 
 chsh -s $(which zsh)
 
