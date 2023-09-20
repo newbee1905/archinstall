@@ -961,3 +961,5 @@ zsh
 zstd
 musl
 atuin
+exa
+fd
